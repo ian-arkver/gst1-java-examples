@@ -39,7 +39,8 @@ public class CameraTest {
             public void run() {
                 SimpleVideoComponent vc = new SimpleVideoComponent();
                 Bin bin = Gst.parseBinFromDescription(
-			"nvarguscamerasrc ! video/x-raw(memory:NVMM),width=1920,height=1080,framerate=30/1,format=NV12 ! nvvidconv ! capsfilter caps=video/x-raw",
+			/* "nvarguscamerasrc ! video/x-raw(memory:NVMM),width=1920,height=1080,framerate=30/1,format=NV12 ! nvvidconv ! capsfilter caps=video/x-raw", */
+			"v4l2src device=/dev/video1 ! uvch264mjpgdemux ! image/jpeg,width=1920,height=1080 ! nvjpegdec ! video/x-raw ! nvvidconv ! video/x-raw(memory:NVMM) ! nvvidconv ! capsfilter caps=video/x-raw",
                         true);
                 pipe = new Pipeline();
                 pipe.addMany(bin, vc.getElement());
